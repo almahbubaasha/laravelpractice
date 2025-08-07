@@ -13,8 +13,8 @@ Route::get('/', function () {
 })->name('home');
 
 
-
-Route::get('/teacher_dashboard', function () {
+// Teacher Routes
+Route::get('/teacher/teacher_dashboard', function () {
     return view('teacher.teacher_dashboard');
 });
 
@@ -24,7 +24,7 @@ Route::get('/QMP_T', function () {
 });
 
 
-Route::get('/stdnt_prgrs_track', function () {
+Route::get('/student-progress-track', function () {
     return view('teacher.stdnt_prgrs_track');
 });
 
@@ -106,4 +106,3 @@ Route::get('/resource_sharing', function () {
 Route::get('/task_assign', function () {
     return view('student.task_assign');
 })->name('task_assign');
-

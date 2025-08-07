@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Research Follow-up System</title>
+  <title>Logout</title>
   <style>
     /* Reset and base */
     * {
@@ -22,6 +22,7 @@
       flex-direction: column;
       align-items: center;
       padding: 100px 20px 40px;
+      text-align: center;
     }
 
     /* Header */
@@ -43,67 +44,98 @@
     }
 
     /* Container */
-    .home-container {
+    .container {
       background: white;
-      max-width: 800px;
+      max-width: 500px;
       width: 100%;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 40px 30px;
-      text-align: center;
+      box-sizing: border-box;
     }
 
-    .home-container h2 {
-      color: #2c3e50;
+    h2 {
       font-size: 28px;
+      margin-bottom: 20px;
+      color: #2c3e50;
       font-weight: 600;
-      margin-bottom: 15px;
     }
 
-    .home-container p {
-      color: #7f8c8d;
+    #role-info {
       font-size: 16px;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+      color: #7f8c8d;
     }
 
-    .cta-button {
+    #logout-message {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    #logoutBtn {
       background: #3498db;
       color: white;
-      font-weight: 600;
-      font-size: 18px;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.3s ease;
     }
 
-    .cta-button:hover {
+    #logoutBtn:hover {
       background: #2c80bd;
     }
 
-    
+    #cancelBtn {
+      background: #e74c3c;
+      color: white;
+    }
+
+    #cancelBtn:hover {
+      background: #c0392b;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      #logout-message {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    Interactive Follow-up & Query System For Research Management
-  </div>
+  <div class="header">Logout</div>
 
-  <div class="home-container">
-    <h2>Welcome to the Research Follow-up & Query System</h2>
-    <p>
-      Stay connected with your supervisor, submit queries, and manage research
-      tasks efficiently.
+  <div class="container">
+    <h2>Logout</h2>
+    <p id="role-info">Role: <span id="userRole">Student</span></p>
+
+    <p id="logout-message">
+      Are you sure you want to log out, <span id="userName">Almahbuba</span>?
     </p>
-    <!-- <a href="login.html" class="cta-button">Get Started</a> -->
 
-    <a href="{{ route('login') }}">
-    <button class="cta-button">Get Started</button>
+    <a href="{{ route('logout') }}">
+    <button id="logoutBtn">Logout</button>
 </a>
 
+    <button id="cancelBtn">Cancel</button>
   </div>
 </body>
 </html>

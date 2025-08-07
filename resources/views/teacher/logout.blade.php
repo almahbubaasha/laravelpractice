@@ -125,7 +125,7 @@
 
   <div class="container">
     <h2>Logout</h2>
-    <p id="role-info">Role: <span id="userRole">Student</span></p>
+    <p id="role-info">Role: <span id="userRole">Teacher</span></p>
 
     <p id="logout-message">
       Are you sure you want to log out, <span id="userName">Almahbuba</span>?

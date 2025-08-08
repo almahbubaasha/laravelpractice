@@ -5,7 +5,7 @@
         <!-- Welcome Section -->
        <div class="welcome-section">
             <h1>Welcome, Student</h1>
-            <p>Defence Research Management System</p>
+            <p>Defense Research Management System</p>
         </div>
 
 

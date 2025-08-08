@@ -1,4 +1,172 @@
-<!DOCTYPE html>
+
+@extends('teacher.layout')
+
+@push('styles')
+
+<title>Student Progress Tracking</title>
+  <style>
+    /* Reset and base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 250px;
+      margin-top: 70px;
+      padding: 25px 30px;
+      min-height: calc(100vh - 70px);
+    }
+
+    /* Role Info */
+    .role-info {
+      font-size: 14px;
+      margin-bottom: 25px;
+      font-weight: 600;
+      color: #7f8c8d;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: 1px solid #ecf0f1;
+      margin-bottom: 25px;
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ecf0f1;
+      padding: 12px 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #2c3e50;
+    }
+    th {
+      background: #3498db;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* Progress bar container */
+    .progress-container {
+      background: #ecf0f1;
+      border-radius: 8px;
+      width: 100%;
+      height: 15px;
+      overflow: hidden;
+    }
+
+    /* Actual progress bar */
+    .progress-bar {
+      height: 100%;
+      border-radius: 8px;
+      background: #27ae60;
+      width: 0%; /* will be inline style */
+      transition: width 0.5s ease;
+    }
+
+    /* Feedback text */
+    .feedback {
+      font-size: 13px;
+      color: #7f8c8d;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+
+@endpush
+
+
+@section('content')
+
+  <main class="main-content">
+    <p class="role-info">Role: <strong>Teacher</strong></p>
+
+    <section class="card">
+      <h3>Student Progress Overview</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Completed Tasks</th>
+            <th>Total Tasks</th>
+            <th>Progress</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Doe</td>
+            <td>5</td>
+            <td>10</td>
+            <td>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 50%;"></div>
+              </div>
+              50%
+            </td>
+            <td class="feedback">Good progress</td>
+          </tr>
+          <tr>
+            <td>Jane Smith</td>
+            <td>8</td>
+            <td>10</td>
+            <td>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 80%;"></div>
+              </div>
+              80%
+            </td>
+            <td class="feedback">Excellent work</td>
+          </tr>
+          <tr>
+            <td>Michael Johnson</td>
+            <td>3</td>
+            <td>10</td>
+            <td>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 30%;"></div>
+              </div>
+              30%
+            </td>
+            <td class="feedback">Needs improvement</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+
+
+@endsection
+
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -223,4 +391,4 @@
   </main>
 
 </body>
-</html>
+</html> --}}

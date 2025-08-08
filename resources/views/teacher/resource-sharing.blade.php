@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Resource Sharing</title>
+@extends('teacher.layout')
+
+@push('styles')
+
+<title>Resource Sharing</title>
   <style>
     /* Reset & base */
     * {
@@ -202,9 +201,12 @@
       }
     }
   </style>
-</head>
-<body>
-  <div class="header">Resource Sharing</div>
+
+@endpush
+
+
+@section('content')
+<div class="header">Resource Sharing</div>
 
   <div class="container">
     <h2>Resource Sharing</h2>
@@ -238,5 +240,11 @@
       </ul>
     </div>
   </div>
-</body>
-</html>
+@endsection
+
+
+
+
+
+
+

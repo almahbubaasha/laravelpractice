@@ -4,83 +4,72 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TemplateController;
 
-
-
-// route::get('/',[TemplateController::class,'index']);
+// ================================== Home
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
 
-// Teacher Routes
-Route::get('/teacher/teacher_dashboard', function () {
-    return view('teacher.teacher_dashboard');
-});
+
+// Route::get('/QMP_S', function () {
+//     return view('student.QMP_S');
+// });
 
 
-Route::get('/QMP_T', function () {
-    return view('teacher.QMP_T');
-});
-
-
-Route::get('/student-progress-track', function () {
-    return view('teacher.stdnt_prgrs_track');
-});
-
-
-Route::get('/student_dashboard', function () {
-    return view('student.student_dashboard');
-});
-
-
-Route::get('/QMP_S', function () {
-    return view('student.QMP_S');
-});
-
-
-
-// =================================
 
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
 
-Route::get('/student-queries', function () {
-    return view('teacher.QMP_T');
-})->name('student.queries');
+// ================================== Teacher
+Route::get('/teacher/teacher-dashboard', function () {
+    return view('teacher.teacher-dashboard');
+})->name('teacher.dashboard');
 
 
-Route::get('/student-progress-track', function () {
-    return view('teacher.stdnt_prgrs_track');
-})->name('student.progress.track');
+Route::get('/teacher/student-queries', function () {
+    return view('teacher.QMP-Teacher');
+})->name('teacher.student.queries');
 
+Route::get('/teacher/student-progress-track', function () {
+    return view('teacher.student-progress-track');
+})->name('teacher.student.progress.track');
 
-Route::get('/logout', function () {
+Route::get('/teacher/logout', function () {
     return view('teacher.logout');
-})->name('logout');
+})->name('teacher.logout');
 
-Route::get('/notification', function () {
+Route::get('/teacher/notification', function () {
     return view('teacher.notification');
-})->name('notification');
+})->name('teacher.notification');
 
-Route::get('/resource_sharing', function () {
-    return view('student.resource_sharing');
-})->name('resource_sharing');
+Route::get('/teacher/resource-sharing', function () {
+    return view('teacher.resource-sharing');
+})->name('teacher.resource.sharing');
 
-Route::get('/task_assign', function () {
-    return view('teacher.task_assign');
-})->name('task_assign');
 
-Route::get('/profile', function () {
+Route::get('/teacher/task-assign', function () {
+    return view('teacher.task-assign');
+})->name('teacher.task.assign');
+
+Route::get('/teacher/profile', function () {
     return view('teacher.profile');
-})->name('profile');
+})->name('teacher.profile');
+
+
 
 // ===================================student
 
+Route::get('/student-dashboard', function () {
+    return view('student.student-dashboard');
+})->name('student.dashboard');
+
+
+
 Route::get('/student-queries', function () {
-    return view('student.QMP_S');
+    return view('student.QMP-Student');
 })->name('student.queries');
 
 Route::get('/logout', function () {
@@ -98,11 +87,15 @@ Route::get('/profile', function () {
 })->name('profile');
 
 
-Route::get('/resource_sharing', function () {
-    return view('student.resource_sharing');
-})->name('resource_sharing');
+Route::get('/resource-sharing', function () {
+    return view('student.resource-sharing');
+})->name('resource.sharing');
 
 
 Route::get('/task_assign', function () {
-    return view('student.task_assign');
-})->name('task_assign');
+    return view('student.task-assign');
+})->name('task.assign');
+
+Route::get('/supervisor-information', function () {
+    return view('student.supervisor-information');
+})->name('supervisor.information');

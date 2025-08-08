@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notifications</title>
+
+@extends('student.layout')
+@push('styles')
+<title>Notifications</title>
   <style>
     /* Reset & base */
     * {
@@ -180,9 +178,12 @@
       }
     }
   </style>
-</head>
-<body>
-  <div class="header">Notifications</div>
+@endpush
+
+
+
+@section('content')
+ <div class="header">Notifications</div>
 
   <div class="container">
     <h2>Notifications</h2>
@@ -214,5 +215,7 @@
       </ul>
     </div>
   </div>
-</body>
-</html>
+@endsection
+
+
+

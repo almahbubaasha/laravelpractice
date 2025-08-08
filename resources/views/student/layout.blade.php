@@ -17,8 +17,8 @@
                 <span>Interactive Follow-up and Query System for Research Management</span>
             </div>
             <div class="user-info">
-                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="Profile" class="profile-img">
-                <span>Fatima Khan</span>
+                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" alt="Profile" class="profile-img">
+                <span>Almahbuba</span>
             </div>
         </div>
     </header>
@@ -27,19 +27,25 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="student-info">
-                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Student" class="student-img">
+                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" alt="Student" class="student-img">
                 <div class="student-details">
-                    <h4>Fatima Khan</h4>
+                    <h4>Almahbuba</h4>
                     <p>Research Student</p>
                 </div>
             </div>
         </div>
         <nav class="sidebar-nav">
-            <a href="{{ route('profile') }}" class="nav-item active">
+
+            <a href="{{ route('student.dashboard') }}" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ route('profile') }}" class="nav-item">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>
-            <a href="#supervisor" class="nav-item">
+            <a href="{{ route('supervisor.information') }}" class="nav-item">
                 <i class="fas fa-user-tie"></i>
                 <span>Supervisor Info</span>
             </a>
@@ -47,7 +53,7 @@
                 <i class="fas fa-question-circle"></i>
                 <span>My Queries</span>
             </a>
-            <a href="{{ route('task_assign') }}" class="nav-item">
+            <a href="{{ route('task.assign') }}" class="nav-item">
                 <i class="fas fa-tasks"></i>
                 <span>Assigned Tasks</span>
             </a>
@@ -55,7 +61,7 @@
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="{{ route('resource_sharing') }}" class="nav-item">
+            <a href="{{ route('resource.sharing') }}" class="nav-item">
                 <i class="fas fa-folder-open"></i>
                 <span>Resource Sharing</span>
             </a>

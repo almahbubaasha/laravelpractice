@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Task Assignment & Submission</title>
+@extends('student.layout')
+@push('styles')
+<title>Task Assignment & Submission</title>
   <style>
     /* Reset and base */
     * {
@@ -18,58 +15,6 @@
       line-height: 1.6;
       min-height: 100vh;
       text-align: left;
-    }
-
-    /* Header */
-    .header {
-      background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-      color: white;
-      padding: 0 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 70px;
-      left: 0;
-      width: 250px;
-      height: calc(100vh - 70px);
-      background: #34495e;
-      padding: 20px 0;
-      overflow-y: auto;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-    }
-    .sidebar .nav-item {
-      color: #bdc3c7;
-      padding: 12px 30px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      text-decoration: none;
-    }
-    .sidebar .nav-item:hover,
-    .sidebar .nav-item.active {
-      background: #3498db;
-      color: white;
-    }
-    .sidebar .nav-item i {
-      font-size: 18px;
-      width: 20px;
-      text-align: center;
     }
 
     /* Main content */
@@ -184,19 +129,9 @@
       }
     }
   </style>
-</head>
-<body>
+@endpush
 
-  <header class="header">
-    Task Assignment & Submission
-  </header>
-
-  <aside class="sidebar">
-    <a href="#" class="nav-item active"><i>🏠</i> Dashboard</a>
-    <a href="#" class="nav-item"><i>📝</i> Tasks</a>
-    <a href="#" class="nav-item"><i>📤</i> Submissions</a>
-    <a href="#" class="nav-item"><i>⚙️</i> Settings</a>
-  </aside>
+@section('content')
 
   <main class="main-content">
     <p class="role-info">Role: <strong>Teacher / Student</strong></p>
@@ -239,6 +174,7 @@
       </ul>
     </section>
   </main>
+@endsection
 
-</body>
-</html>
+
+

@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profile Page</title>
+@extends('teacher.layout')
+
+@push('styles')
+
+<title>Profile Page</title>
   <style>
     /* Reset & base */
     * {
@@ -144,41 +143,19 @@
       transform: translateY(-2px);
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .container {
-        padding: 25px 15px;
-        border-radius: 12px;
-      }
-
-      h2 {
-        font-size: 24px;
-      }
-
-      .profile-pic-container img {
-        width: 100px;
-        height: 100px;
-      }
-
-      form input,
-      form textarea {
-        font-size: 14px;
-        padding: 12px 15px;
-      }
-
-      .btn {
-        padding: 12px 16px;
-        font-size: 14px;
-      }
-    }
   </style>
-</head>
-<body>
-  <div class="header">Profile</div>
+
+@endpush
+
+
+
+@section('content')
+
+<div class="header">Profile</div>
 
   <div class="container">
     <h2>Profile</h2>
-    <p id="role-info">Role: <span id="userRole">Student</span></p>
+    <p id="role-info">Role: <span id="userRole">Teacher</span></p>
 
     <!-- Profile Picture Upload -->
     <div class="profile-pic-container">
@@ -195,5 +172,14 @@
       <button class="btn" type="submit">Save Changes</button>
     </form>
   </div>
-</body>
-</html>
+@endsection
+
+
+
+
+
+
+
+
+
+

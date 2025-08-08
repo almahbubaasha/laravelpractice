@@ -40,11 +40,11 @@
             </div>
         </div>
         <nav class="sidebar-nav">
-            <a href="#dashboard" class="nav-item active">
+            <a href="{{ route('teacher.dashboard') }}" class="nav-item active">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('profile') }}" class="nav-item">
+            <a href="{{ route('teacher.profile') }}" class="nav-item">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>
@@ -58,31 +58,31 @@
                 <span class="badge">5</span>
             </a> -->
 
-            <a href="{{ route('student.queries') }}" class="nav-item">
+            <a href="{{ route('teacher.student.queries') }}" class="nav-item">
                 <i class="fas fa-question-circle"></i>
                 <span>Student Queries</span>
                 <span class="badge">5</span>
             </a>
 
 
-            <a href="{{ route('task_assign') }}" class="nav-item">
+            <a href="{{ route('teacher.task.assign') }}" class="nav-item">
                 <i class="fas fa-tasks"></i>
                 <span>Assign Tasks</span>
             </a>
 
-            <a href="{{ route('student.progress.track') }}" class="nav-item">
+            <a href="{{ route('teacher.student.progress.track') }}" class="nav-item">
                 <i class="fas fa-chart-line"></i>
                 <span>Track Progress</span>
             </a>
-            <a href="{{ route('resource_sharing') }}" class="nav-item">
+            <a href="{{ route('teacher.resource.sharing') }}" class="nav-item">
                 <i class="fas fa-folder-open"></i>
                 <span>Resource Sharing</span>
             </a>
-            <a href="{{ route('notification') }}" class="nav-item">
+            <a href="{{ route('teacher.notification') }}" class="nav-item">
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="{{ route('logout') }}" class="nav-item logout">
+            <a href="{{ route('teacher.logout') }}" class="nav-item logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>

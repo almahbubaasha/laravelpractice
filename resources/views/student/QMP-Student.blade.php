@@ -1,174 +1,111 @@
 @extends('student.layout')
+
 @push('styles')
-    <title>Query Management System</title>
-    <style>
-        /* Reset & base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #2c3e50;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 100px 20px 40px;
+    text-align: center;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 100px 20px 40px;
-            text-align: center;
-        }
+.container {
+    background: white;
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    padding: 30px 25px;
+    text-align: left;
+}
 
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 600;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+}
 
-        /* Container */
-        .container {
-            background: white;
-            max-width: 600px;
-            margin: 0 auto;
-            border-radius: 15px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-            padding: 30px 25px;
-            box-sizing: border-box;
-            text-align: left;
-        }
+form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1.5px solid #ecf0f1;
+    resize: vertical;
+    min-height: 80px;
+}
 
-        h2 {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: 600;
-            text-align: center;
-        }
+form button {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 5px;
+}
 
-        #role-info {
-            font-size: 16px;
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+form button:hover {
+    background: #2c80bd;
+}
 
-        /* Form Inputs */
-        form textarea {
-            width: 100%;
-            padding: 14px 18px;
-            margin: 12px 0 18px 0;
-            border: 1.5px solid #ecf0f1;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            color: #2c3e50;
-            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.07);
-            resize: vertical;
-            min-height: 120px;
-            transition: border-color 0.3s ease;
-        }
+.query-item {
+    background: #f9f9f9;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ecf0f1;
+}
 
-        form textarea:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 8px #3498db;
-        }
-
-        /* Button */
-        .btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.5);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn:hover {
-            background: #2c80bd;
-            transform: translateY(-2px);
-        }
-
-        /* Query List */
-        .query-list {
-            margin-top: 30px;
-            text-align: left;
-        }
-
-        .query-item {
-            background: #f9f9f9;
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ecf0f1;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .container {
-                padding: 25px 15px;
-                border-radius: 12px;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-
-            form textarea {
-                font-size: 14px;
-                padding: 12px 15px;
-                min-height: 100px;
-            }
-
-            .btn {
-                padding: 12px 16px;
-                font-size: 14px;
-            }
-        }
-    </style>
+.feedback {
+    background: #eef9ff;
+    padding: 10px 15px;
+    border-left: 4px solid #3498db;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+}
+</style>
 @endpush
+
 @section('content')
-    <div class="header">Query Management System</div>
+<div class="container">
+    <h1>My Queries</h1>
 
-    <div class="container">
-        <h2>Query Management System</h2>
-        <p id="role-info">Role: <strong>Student</strong></p>
-
-        <!-- Student Section -->
-        <div id="student-section">
-            <h3>Submit a Query</h3>
-            <form id="queryForm" action="#" method="post">
-                <textarea id="queryInput" name="query" placeholder="Enter your query" required></textarea>
-                <button class="btn" type="submit">Submit Query</button>
-            </form>
-        </div>
-
-        <!-- Query list example -->
-        <div class="query-list" id="queryList">
-            <!-- Example query -->
-            <!--
-              <div class="query-item">
-                <p><strong>Query:</strong> When is the next deadline?</p>
-              </div>
-              -->
-        </div>
+    <!-- Submit New Query -->
+    <div class="section">
+        <h2>Submit a Query</h2>
+        <form action="{{ route('student.queries.store') }}" method="POST">
+            @csrf
+            <textarea name="query" placeholder="Enter your query..." required></textarea>
+            <button type="submit">Submit Query</button>
+        </form>
     </div>
+
+    <!-- All submitted queries -->
+    <div class="section">
+        <h2>Previous Queries</h2>
+        @foreach($queries as $q)
+            <div class="query-item">
+                <p><strong>You:</strong> {{ $q->query }}</p>
+                <small>Submitted: {{ $q->created_at->diffForHumans() }}</small>
+
+                @if($q->feedback)
+                    <div class="feedback">
+                        <strong>Teacher Feedback:</strong> {{ $q->feedback }}
+                    </div>
+                @else
+                    <div class="feedback" style="font-style: italic; color: #777;">
+                        No feedback yet.
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+</div>
 @endsection

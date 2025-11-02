@@ -171,25 +171,48 @@
     </style>
 @endpush
 @section('content')
-    <div class="header">Profile</div>
+   <div class="header">Profile</div>
 
-    <div class="container">
-        <h2>Profile</h2>
-        <p id="role-info">Role: <span id="userRole">Student</span></p>
+<div class="container">
+    <h2>Profile</h2>
+    <p>Role: <strong>{{ auth()->user()->role ?? 'Student' }}</strong></p>
 
-        <!-- Profile Picture Upload -->
-        <div class="profile-pic-container">
-            <img id="profilePic" src="default-avatar.png" alt="Profile Picture" />
-            <input type="file" id="uploadPic" accept="image/*" />
-        </div>
-
-        <!-- Profile Details -->
-        <form id="profileForm">
-            <input type="text" id="name" placeholder="Full Name" required />
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="text" id="department" placeholder="Department" required />
-            <textarea id="bio" placeholder="Short Bio"></textarea>
-            <button class="btn" type="submit">Save Changes</button>
-        </form>
+    <!-- Profile Picture Upload -->
+    <div class="profile-pic-container">
+        <img id="profilePic" src="{{ auth()->user()->avatar ? asset(auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Profile Picture" />
     </div>
+<form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
+    @csrf
+
+    {{-- Profile Picture Preview --}}
+    <div style="margin-bottom: 15px;">
+        @if(!empty($profile->img))
+            <img src="{{ asset($profile->img) }}" alt="Profile Picture"
+                style="width: 100px; height: 100px; border-radius: 50%; display:block; margin-bottom:10px;">
+        @endif
+
+        {{-- File Input --}}
+        <label for="uploadPic" style="display:block; font-weight:bold; margin-bottom:5px;">Choose Profile Picture</label>
+        <input type="file" name="img" id="uploadPic" accept="image/png, image/jpeg, image/jpg" />
+    </div>
+
+    {{-- Full Name --}}
+    <input type="text" name="full_name" id="name" placeholder="Full Name" value="" required />
+
+    {{-- Email --}}
+    <input type="email" name="email" id="email" placeholder="Email" value="" required />
+
+    {{-- Department --}}
+    <input type="text" name="department" id="department" placeholder="Department" value="" />
+
+    {{-- Short Bio --}}
+    <textarea name="short_bio" id="bio" placeholder="Short Bio"></textarea>
+
+    <button class="btn" type="submit">Save Changes</button>
+</form>
+
+
+
+</div>
+
 @endsection

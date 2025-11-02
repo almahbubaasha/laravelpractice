@@ -131,50 +131,67 @@
   </style>
 @endpush
 
+
+
+
 @section('content')
+<main class="main-content">
+  <div class="card">
+    <h3>Assigned Tasks</h3>
 
-  <main class="main-content">
-    <p class="role-info">Role: <strong>Teacher / Student</strong></p>
+    @if(session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-    <!-- Teacher Section -->
-    <section id="teacher-section" class="card">
-      <h3>Assign a Task</h3>
-      <form id="taskForm">
-        <input type="text" id="taskTitle" placeholder="Task Title" required />
-        <textarea id="taskDesc" placeholder="Task Description" required></textarea>
-        <input type="date" id="taskDeadline" required />
-        <button class="btn" type="submit">Assign Task</button>
-      </form>
+    @if($tasks->isEmpty())
+      <p>No tasks assigned yet.</p>
+    @else
+      @foreach($tasks as $task)
+        <div class="task-item">
+          <h4>{{ $task->title }}</h4>
+          <p>{{ $task->description }}</p>
+          <p><strong>Deadline:</strong> {{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('d M, Y') : '—' }}</p>
 
-      <h3 style="margin-top: 40px;">All Assigned Tasks</h3>
-      <ul id="assignedTasks">
-        <li class="task-item">No tasks assigned yet.</li>
-      </ul>
-    </section>
+          @if($task->file_path)
+            <p>
+              <a href="{{ route('teacher.tasks.download', $task->id) }}">Download task file</a>
 
-    <!-- Student Section -->
-    <section id="student-section" class="card">
-      <h3>My Assigned Tasks</h3>
-      <ul id="studentTasks">
-        <li class="task-item">No tasks assigned.</li>
-      </ul>
+            </p>
+          @endif
 
-      <h3 style="margin-top: 40px;">Submit a Task</h3>
-      <form id="submissionForm">
-        <select id="taskSelect">
-          <option value="">Select a Task</option>
-        </select>
-        <input type="file" id="taskFile" required />
-        <button class="btn" type="submit">Submit Task</button>
-      </form>
+          @php
+            $submission = $task->submissions()->where('student_id', auth()->id())->first();
+          @endphp
 
-      <h3 style="margin-top: 40px;">Submitted Tasks</h3>
-      <ul id="submittedTasks">
-        <li class="task-item">No submissions yet.</li>
-      </ul>
-    </section>
-  </main>
+          @if($submission)
+            <p><strong>Your submission:</strong>
+              @if($submission->file_path)
+                <a href="{{ route('submissions.download', $submission->id) }}">Download your file</a>
+
+              @else
+                No file.
+              @endif
+            </p>
+            <p><strong>Submitted at:</strong> {{ $submission->created_at->diffForHumans() }}</p>
+            <p><strong>Remarks:</strong> {{ $submission->remarks }}</p>
+          @else
+            <form action="{{ route('student.task.submit', $task->id) }}" method="POST" enctype="multipart/form-data" style="margin-top:10px;">
+              @csrf
+              <label>Upload your file</label>
+              <input type="file" name="file" required />
+              <label>Remarks (optional)</label>
+              <input type="text" name="remarks" />
+              <button type="submit" class="btn">Submit</button>
+            </form>
+          @endif
+        </div>
+      @endforeach
+    @endif
+
+  </div>
+</main>
 @endsection
+
 
 
 

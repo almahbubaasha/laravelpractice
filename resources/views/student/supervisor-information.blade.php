@@ -164,26 +164,41 @@
 
 
 @section('content')
- <div class="header">Supervisor Info</div>
+<div class="header">Supervisor Info</div>
 
-    <div class="container">
-        <h2>Supervisor Details</h2>
-        <p id="role-info">Role: <span id="userRole">Supervisor</span></p>
+<div class="container">
+    <h2>Supervisor Details</h2>
+    <p id="role-info">Role: <span id="userRole">Supervisor</span></p>
 
-        <!-- Profile Picture -->
-        <div class="profile-pic-container">
-            <img id="profilePic" src="default-avatar.png" alt="Supervisor Picture" />
-        </div>
-
-        <!-- Supervisor Details -->
-        <form id="supervisorForm">
-            <input type="text" id="name" placeholder="Full Name" required />
-            <input type="email" id="email" placeholder="Email" required />
-            <input type="text" id="department" placeholder="Department" required />
-            <input type="text" id="contact" placeholder="Contact Number" required />
-            <button class="btn" type="submit">Save Changes</button>
-        </form>
+    <!-- Profile Picture -->
+    <div class="profile-pic-container">
+        @if(!empty($supervisor->img))
+            <img id="profilePic" src="{{ asset($supervisor->img) }}" alt="Supervisor Picture" width="100" height="100" style="border-radius:50%">
+        @else
+            <img id="profilePic" src="{{ asset('default-avatar.png') }}" alt="Supervisor Picture" width="100" height="100" style="border-radius:50%">
+        @endif
     </div>
+
+    <!-- Supervisor Details -->
+   <form action="{{ route('student.supervisor.update') }}" method="POST" enctype="multipart/form-data" id="supervisorForm">
+    @csrf
+
+    <input type="file" name="img" accept="image/png,image/jpeg" />
+
+    <input type="text" name="full_name" placeholder="{{ $supervisor->full_name ?? 'Full Name' }}" value="" required />
+
+    <input type="email" name="email" placeholder="{{ $supervisor->email ?? 'Email' }}" value="" required />
+
+    <input type="text" name="department" placeholder="{{ $supervisor->department ?? 'Department' }}" value="" required />
+
+    <input type="text" name="contact" placeholder="{{ $supervisor->contact ?? 'Contact Number' }}" value="" required />
+
+    <button class="btn" type="submit">Save Changes</button>
+</form>
+
+
+
+</div>
 
 @endsection
 

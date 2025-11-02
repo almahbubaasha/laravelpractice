@@ -134,7 +134,7 @@
 @endpush
 
 
-
+{{-- 
 @section('content')
 <main class="main-content">
     <p class="role-info">Role: <strong>Teacher / Student</strong></p>
@@ -142,12 +142,22 @@
     <!-- Teacher Section -->
     <section id="teacher-section" class="card">
       <h3>Assign a Task</h3>
-      <form id="taskForm">
-        <input type="text" id="taskTitle" placeholder="Task Title" required />
-        <textarea id="taskDesc" placeholder="Task Description" required></textarea>
-        <input type="date" id="taskDeadline" required />
-        <button class="btn" type="submit">Assign Task</button>
-      </form>
+
+  <form id="taskForm">
+    <input type="text" id="taskTitle" placeholder="Task Title" required />
+
+    <textarea id="taskDesc" placeholder="Task Description" required></textarea>
+
+    <input type="date" id="taskDeadline" required />
+
+    <!-- ✅ File Upload UI Added -->
+    <label style="font-weight:600; margin-top:10px;">Attach Task File (Optional)</label>
+    <input type="file" id="taskFile" />
+
+    <!-- Button Update -->
+    <button class="btn" type="submit" style="margin-top:15px;">Upload & Assign Task</button>
+</form>
+
 
       <h3 style="margin-top: 40px;">All Assigned Tasks</h3>
       <ul id="assignedTasks">
@@ -155,30 +165,54 @@
       </ul>
     </section>
 
-    <!-- Student Section -->
-    <section id="student-section" class="card">
-      <h3>My Assigned Tasks</h3>
-      <ul id="studentTasks">
-        <li class="task-item">No tasks assigned.</li>
-      </ul>
-
-      <h3 style="margin-top: 40px;">Submit a Task</h3>
-      <form id="submissionForm">
-        <select id="taskSelect">
-          <option value="">Select a Task</option>
-        </select>
-        <input type="file" id="taskFile" required />
-        <button class="btn" type="submit">Submit Task</button>
-      </form>
-
-      <h3 style="margin-top: 40px;">Submitted Tasks</h3>
-      <ul id="submittedTasks">
-        <li class="task-item">No submissions yet.</li>
-      </ul>
-    </section>
   </main>
 
+@endsection --}}
+
+
+
+
+@section('content')
+<main class="main-content">
+  <div class="card">
+    <h3>Assign a Task</h3>
+
+    @if(session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <form action="{{ route('teacher.task.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" placeholder="Task Title" required />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" placeholder="Task Description" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="deadline">Deadline</label>
+        <input type="date" name="deadline" id="deadline" required />
+    </div>
+
+    <div class="form-group">
+        <label for="file">Attach file (optional)</label>
+        <input type="file" name="file" id="file" accept=".pdf,.doc,.docx,.zip,.png,.jpg" />
+    </div>
+
+    <button type="submit" class="btn">Assign Task</button>
+</form>
+
+
+  </div>
+</main>
 @endsection
+
+
 
 
 

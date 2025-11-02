@@ -84,7 +84,7 @@
       flex-direction: column;
       gap: 20px;
     }
-    input[type="email"],
+    input[type="text"],
     input[type="password"] {
       padding: 12px 15px;
       border: 1px solid #ecf0f1;
@@ -92,7 +92,7 @@
       font-size: 14px;
       transition: border-color 0.3s ease;
     }
-    input[type="email"]:focus,
+    input[type="text"]:focus,
     input[type="password"]:focus {
       border-color: #3498db;
       outline: none;
@@ -138,11 +138,33 @@
 
   <main class="container" id="login">
     <h2>Login</h2>
-    <form>
-      <input type="email" placeholder="Enter your email" required />
+    {{-- <form>
+      <input type="number" placeholder="Student ID/Faculty ID" required />
       <input type="password" placeholder="Enter your password" required />
       <button type="submit">Login</button>
-    </form>
+    </form> --}}
+
+    <form method="POST" action="{{ route('login.post') }}">
+    @csrf
+    <input type="text" name="identifier" placeholder="Student ID/Faculty ID" required />
+    <input type="password" name="password" placeholder="Enter your password" required />
+    <button type="submit">Login</button>
+</form>
+
+<!-- Error Display -->
+{{-- @if($errors->any())
+    <div style="color:red;">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif --}}
+
+
+
+
   </main>
 </body>
 </html>

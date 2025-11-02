@@ -17,8 +17,8 @@
                 <span>Interactive Follow-up and Query System for Research Management</span>
             </div>
             <div class="user-info">
-                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" alt="Profile" class="profile-img">
-                <span>Almahbuba</span>
+                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="Profile" class="profile-img">
+                <span>{{ Auth::user()->name ?? 'Student' }}</span>
             </div>
         </div>
     </header>
@@ -27,25 +27,23 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="student-info">
-                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" alt="Student" class="student-img">
+                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="Student" class="student-img">
                 <div class="student-details">
-                    <h4>Almahbuba</h4>
+                    <h4>{{ Auth::user()->name ?? 'Student' }}</h4>
                     <p>Research Student</p>
                 </div>
             </div>
         </div>
         <nav class="sidebar-nav">
-
             <a href="{{ route('student.dashboard') }}" class="nav-item active">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-
-            <a href="{{ route('profile') }}" class="nav-item">
+            <a href="{{ route('student.profile') }}" class="nav-item">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>
-            <a href="{{ route('supervisor.information') }}" class="nav-item">
+            <a href="{{ route('student.supervisor.information') }}" class="nav-item">
                 <i class="fas fa-user-tie"></i>
                 <span>Supervisor Info</span>
             </a>

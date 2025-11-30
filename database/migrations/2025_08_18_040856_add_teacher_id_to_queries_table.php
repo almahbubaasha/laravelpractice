@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
 {
-    Schema::table('queries', function (Blueprint $table) {
-        $table->unsignedBigInteger('teacher_id')->nullable()->after('student_id');
-        $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
-    });
+    if (! Schema::hasColumn('queries', 'teacher_id')) {
+        Schema::table('queries', function (Blueprint $table) {
+            $table->unsignedBigInteger('teacher_id')->nullable()->after('student_id');
+            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
 }
 
 public function down(): void
 {
-    Schema::table('queries', function (Blueprint $table) {
-        $table->dropForeign(['teacher_id']);
-        $table->dropColumn('teacher_id');
-    });
+    if (Schema::hasColumn('queries', 'teacher_id')) {
+        Schema::table('queries', function (Blueprint $table) {
+            $table->dropForeign(['teacher_id']);
+            $table->dropColumn('teacher_id');
+        });
+    }
 }
 
 };

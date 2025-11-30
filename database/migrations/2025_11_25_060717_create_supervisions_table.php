@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('tasks', function (Blueprint $table) {
+    Schema::create('supervisions', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('teacher_id');
-        $table->string('title');
-        $table->text('description');
-        $table->date('deadline');
-        $table->string('file_path')->nullable();
+        $table->unsignedBigInteger('student_id');
         $table->timestamps();
+
+        $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+        $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
     });
 }
 
@@ -26,9 +26,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
-{
-    Schema::dropIfExists('tasks');
-}
-
+    public function down(): void
+    {
+        Schema::dropIfExists('supervisions');
+    }
 };

@@ -132,9 +132,12 @@
       Are you sure you want to log out, <span id="userName">Almahbuba</span>?
     </p>
 
-    <a href="{{ route('logout') }}">
-    <button id="logoutBtn">Logout</button>
-</a>
+    <form method="POST" action="{{ route('student.logout') }}">
+    @csrf
+    <button type="submit">Logout</button>
+</form>
+
+
 
     <button id="cancelBtn">Cancel</button>
   </div>

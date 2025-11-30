@@ -141,6 +141,19 @@
             transform: translateY(-2px);
         }
 
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .container {
@@ -175,44 +188,72 @@
 
 <div class="container">
     <h2>Profile</h2>
-    <p>Role: <strong>{{ auth()->user()->role ?? 'Student' }}</strong></p>
+    <p id="role-info">Role: <strong>{{ Auth::user()->role ?? 'Student' }}</strong></p>
+
+    @if(session('success'))
+        <div class="alert alert-success">✓ {{ session('success') }}</div>
+    @endif
 
     <!-- Profile Picture Upload -->
     <div class="profile-pic-container">
-        <img id="profilePic" src="{{ auth()->user()->avatar ? asset(auth()->user()->avatar) : asset('images/default-avatar.png') }}" alt="Profile Picture" />
-    </div>
-<form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
-    @csrf
-
-    {{-- Profile Picture Preview --}}
-    <div style="margin-bottom: 15px;">
-        @if(!empty($profile->img))
-            <img src="{{ asset($profile->img) }}" alt="Profile Picture"
-                style="width: 100px; height: 100px; border-radius: 50%; display:block; margin-bottom:10px;">
-        @endif
-
-        {{-- File Input --}}
-        <label for="uploadPic" style="display:block; font-weight:bold; margin-bottom:5px;">Choose Profile Picture</label>
-        <input type="file" name="img" id="uploadPic" accept="image/png, image/jpeg, image/jpg" />
+        <img id="profilePic" 
+             src="{{ isset($profile->img) && $profile->img ? asset($profile->img) : asset('default-avatar.png') }}" 
+             alt="Profile Picture" />
     </div>
 
-    {{-- Full Name --}}
-    <input type="text" name="full_name" id="name" placeholder="Full Name" value="" required />
+    <form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
+        @csrf
 
-    {{-- Email --}}
-    <input type="email" name="email" id="email" placeholder="Email" value="" required />
+        {{-- Image Upload --}}
+        <label for="uploadPic" style="font-weight: 600; color: #2c3e50; display: block; margin-bottom: 8px;">Profile Picture</label>
+        <input type="file" id="uploadPic" name="img" accept="image/*" style="margin-bottom: 15px;" />
 
-    {{-- Department --}}
-    <input type="text" name="department" id="department" placeholder="Department" value="" />
+        {{-- Full Name --}}
+        <input type="text" 
+               name="full_name" 
+               id="name" 
+               placeholder="Full Name" 
+               value="{{ $profile->full_name ?? Auth::user()->name ?? '' }}" 
+               required />
 
-    {{-- Short Bio --}}
-    <textarea name="short_bio" id="bio" placeholder="Short Bio"></textarea>
+        {{-- Email --}}
+        <input type="email" 
+               name="email" 
+               id="email" 
+               placeholder="Email" 
+               value="{{ $profile->email ?? Auth::user()->email ?? '' }}" 
+               required />
 
-    <button class="btn" type="submit">Save Changes</button>
-</form>
+        {{-- Contact Number --}}
+        <input type="text" 
+               name="contact" 
+               id="contact" 
+               placeholder="Contact Number" 
+               value="{{ $profile->contact ?? '' }}" />
 
+        {{-- Department --}}
+        <input type="text" 
+               name="department" 
+               id="department" 
+               placeholder="Department" 
+               value="{{ $profile->department ?? '' }}" />
 
-
+        <button class="btn" type="submit">Save Changes</button>
+    </form>
 </div>
+
+<script>
+// Preview image before upload
+document.getElementById('uploadPic').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profilePic').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
 @endsection

@@ -109,7 +109,7 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
+      transition: 0.3s ease, transform 0.2s ease;
     }
     button:hover {
       background: #2c3e50;
@@ -131,18 +131,13 @@
 <body>
   <header class="header">Interactive Follow-up and Query System</header>
 
-  <nav class="nav">
+  {{-- <nav class="nav">
     <a href="#home">Home</a>
     <a href="#login">Login</a>
-  </nav>
+  </nav> --}}
 
   <main class="container" id="login">
     <h2>Login</h2>
-    {{-- <form>
-      <input type="number" placeholder="Student ID/Faculty ID" required />
-      <input type="password" placeholder="Enter your password" required />
-      <button type="submit">Login</button>
-    </form> --}}
 
     <form method="POST" action="{{ route('login.post') }}">
     @csrf

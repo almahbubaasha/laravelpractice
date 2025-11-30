@@ -157,20 +157,41 @@
     <h2>Profile</h2>
     <p id="role-info">Role: <span id="userRole">Teacher</span></p>
 
+   <form id="profileForm" action="{{ route('teacher.profile.save') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::id() }}">
+
     <!-- Profile Picture Upload -->
     <div class="profile-pic-container">
-      <img id="profilePic" src="default-avatar.png" alt="Profile Picture" />
-      <input type="file" id="uploadPic" accept="image/*" />
+      <img id="profilePic" src="{{ isset($profile->img) ? asset($profile->img) : asset('default-avatar.png') }}" alt="Profile Picture" />
+      <input type="hidden" name="old_img" value="{{ $profile->img ?? '' }}">
+
+
+      <input type="file" id="uploadPic" name="img" accept="image/*" />
     </div>
 
-    <!-- Profile Details -->
-    <form id="profileForm">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="text" id="department" placeholder="Department" required />
-      <textarea id="bio" placeholder="Short Bio"></textarea>
-      <button class="btn" type="submit">Save Changes</button>
-    </form>
+
+    <!-- User ID (Auto-filled from Auth::id) -->
+<input type="text" name="user_id" 
+       value="{{ Auth::id() }}" 
+       readonly 
+       class="form-control">
+
+    <input type="text" id="name" name="full_name" placeholder="Full Name" value="{{ $profile->full_name ?? '' }}" required />
+    <input type="email" id="email" name="email" placeholder="Email" value="{{ $profile->email ?? '' }}" required />
+    <input type="text" id="department" name="department" placeholder="Department" value="{{ $profile->department ?? '' }}" />
+    <textarea id="bio" name="short_bio" placeholder="Short Bio">{{ $profile->short_bio ?? '' }}</textarea>
+    <input type="text" id="contact" name="contact" placeholder="Contact Number" value="{{ $profile->contact ?? '' }}" />
+
+    <button class="btn" type="submit">Save Changes</button>
+</form>
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+
+
   </div>
 @endsection
 

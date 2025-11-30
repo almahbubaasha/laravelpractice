@@ -100,7 +100,7 @@
     </p>
     <!-- <a href="login.html" class="cta-button">Get Started</a> -->
 
-    <a href="{{ route('login') }}">
+    <a href="{{ route('register') }}">
     <button class="cta-button">Get Started</button>
 </a>
 

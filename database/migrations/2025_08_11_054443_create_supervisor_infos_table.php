@@ -12,15 +12,17 @@ return new class extends Migration
     public function up()
 {
     Schema::create('supervisor_infos', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->string('img')->nullable();
-        $table->string('full_name')->nullable();
-        $table->string('email')->nullable();
-        $table->string('department')->nullable();
-        $table->text('short_bio')->nullable();
-        $table->timestamps();
-    });
+    $table->id(); // auto increment primary key
+    $table->string('user_id')->unique(); // <-- string type, unique student ID
+    $table->string('img')->nullable();
+    $table->string('full_name')->nullable();
+    $table->string('email')->nullable();
+    $table->string('department')->nullable();
+    $table->text('short_bio')->nullable();
+    $table->string('contact')->nullable();
+    $table->timestamps();
+});
+
 }
 
 

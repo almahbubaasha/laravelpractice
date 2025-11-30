@@ -12,8 +12,6 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int,string>
      */
     protected $fillable = [
         'name',
@@ -23,14 +21,12 @@ class User extends Authenticatable
         'identifier',
         'role',
         'avatar',
-        'department',  // যদি তোমার ইউজার টেবিলে থাকে
-        'bio',         // যদি তোমার ইউজার টেবিলে থাকে
+        'department',
+        'bio',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<int,string>
      */
     protected $hidden = [
         'password',
@@ -39,11 +35,48 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast.
-     *
-     * @var array<string,string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * ============= RELATIONS =============
+     * Each student has one SupervisorInfo record
+     */
+    public function supervisorInfo()
+    {
+        return $this->hasOne(SupervisorInfo::class, 'user_id');
+    }
+
+    /**
+     * A teacher can have many students (TeacherStudent table)
+     */
+    public function assignedStudents()
+    {
+        return $this->hasMany(TeacherStudent::class, 'teacher_id');
+    }
+
+    /**
+     * ============= RESOURCE SHARING RELATIONS =============
+     * Teacher: Resources that this teacher has shared
+     */
+    public function sharedResources()
+    {
+        return $this->hasMany(SharedResource::class, 'teacher_id');
+    }
+
+    /**
+     * Student: Resources that have been shared with this student
+     */
+    public function receivedResources()
+    {
+        return $this->belongsToMany(
+            SharedResource::class, 
+            'resource_recipients', 
+            'student_id', 
+            'shared_resource_id'
+        )->withTimestamps();
+    }
 }

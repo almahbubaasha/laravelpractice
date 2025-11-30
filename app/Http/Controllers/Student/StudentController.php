@@ -5,145 +5,133 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Profile;  // এখানে মডেল ইম্পোর্ট করবে
+use App\Models\User;
+use App\Models\StudentProfile;
+use App\Models\Task;
 use App\Models\SupervisorInfo;
 
 class StudentController extends Controller
 {
+    // ================= Dashboard
     public function dashboard()
     {
-        return view('student.student-dashboard');
+        $userId = session('user_id');
+        $userName = session('name');
+
+        return view('student.student-dashboard', compact('userId', 'userName'));
     }
 
-//============================= Profile view
+    // ================= Profile view
     public function profile()
-{
-    return view('student.profile'); // কোনো ডাটা পাঠানো হচ্ছে না
-}
+    {
+        $student = Auth::user();
+        $profile = StudentProfile::where('user_id', $student->id)->first();
 
-// Profile update method
-public function updateProfile(Request $request)
-{
-    $request->validate([
-        'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // 2MB max
-        'full_name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'department' => 'nullable|string|max:255',
-        'short_bio' => 'nullable|string|max:1000',
-    ]);
-
-    $user = Auth::user();
-
-    // ইউজার টেবিলে আপডেট (name & email)
-    $user->name = $request->input('full_name');
-    $user->email = $request->input('email');
-
-    if ($request->hasFile('img')) {
-        $filename = time() . '.' . $request->img->extension();
-        $request->img->move(public_path('uploads/profile_images'), $filename);
-        $avatarPath = 'uploads/profile_images/' . $filename;
-        $user->avatar = $avatarPath;
+        return view('student.profile', compact('student', 'profile'));
     }
 
-    $user->save();
+    // ================= Profile update
+    public function updateProfile(Request $request)
+    {
+        $student = Auth::user();
 
-    // নতুন Profile রেকর্ড তৈরি করবে প্রতিবার
-    $profileData = [
-        'user_id' => $user->id,
-        'full_name' => $request->input('full_name'),
-        'email' => $request->input('email'),
-        'department' => $request->input('department'),
-        'short_bio' => $request->input('short_bio'),
-        'img' => $avatarPath ?? null,
-    ];
+        $request->validate([
+            'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'contact' => 'nullable|string|max:20',
+            'department' => 'nullable|string|max:255',
+        ]);
 
-    Profile::create($profileData); // এখানে updateOrCreate নয়, create ব্যবহার করো
+        // Handle image upload
+        $imagePath = null;
+        $existingProfile = StudentProfile::where('user_id', $student->id)->first();
+        
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/student_profile'), $filename);
+            $imagePath = 'uploads/student_profile/' . $filename;
+        } else {
+            $imagePath = $existingProfile->img ?? null;
+        }
 
-    return back()->with('success', 'Profile updated successfully!');
-}
-//=========================================================end profile management
+        // Save to student_profiles table
+        StudentProfile::updateOrCreate(
+            ['user_id' => $student->id],
+            [
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'contact' => $request->contact,
+                'department' => $request->department,
+                'img' => $imagePath,
+            ]
+        );
 
+        // Also update users table (for basic info)
+        $student->update([
+            'name' => $request->full_name,
+            'email' => $request->email,
+            'avatar' => $imagePath,
+        ]);
 
-//============================= Supervisor Info
-
-
-   public function supervisorInformation()
-{
-    $supervisor = SupervisorInfo::where('user_id', Auth::id())->latest()->first();
-    return view('student.supervisor-information', compact('supervisor'));
-}
-
-public function supervisorUpdate(Request $request)
-{
-    $request->validate([
-        'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'full_name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'department' => 'nullable|string|max:255',
-        'short_bio' => 'nullable|string|max:1000',
-        'contact' => 'nullable|string|max:20',
-    ]);
-
-    $avatarPath = null;
-    if ($request->hasFile('img')) {
-        $filename = time() . '.' . $request->img->extension();
-        $request->img->move(public_path('uploads/supervisor_images'), $filename);
-        $avatarPath = 'uploads/supervisor_images/' . $filename;
+        return back()->with('success', 'Profile updated successfully!');
     }
 
-    SupervisorInfo::create([
-        'user_id' => Auth::id(),
-        'full_name' => $request->full_name,
-        'email' => $request->email,
-        'department' => $request->department,
-        'short_bio' => $request->short_bio,
-        'img' => $avatarPath,
-        'contact' => $request->contact,
-    ]);
+    // ================= Supervisor Information
+    public function supervisorInformation()
+    {
+        // Get logged in student
+        $student = Auth::user();
+        $studentIdentifier = $student->identifier ?? $student->user_id;
 
-    return back()->with('success', 'Supervisor info updated successfully!');
-}
+        // Find supervisor info by student identifier
+        $supervisor = SupervisorInfo::where('student_identifier', $studentIdentifier)->first();
 
+        return view('student.supervisor-information', compact('supervisor'));
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //====================================================end supervisor info
+    // ================= My Queries
     public function myQueries()
     {
         return view('student.my-queries');
     }
-public function assignTasks()
-{
-    $tasks = \App\Models\Task::latest()->get(); // fetch all tasks
-    return view('student.task-assign', compact('tasks'));
-}
 
-
-
-    public function notifications()
+    // ================= Assigned Tasks
+    public function assignTasks()
     {
-        return view('student.notifications');
+        $studentId = session('user_id');
+
+        $tasks = Task::where('student_id', $studentId)
+                     ->with(['teacher', 'submissions' => function($query) use ($studentId) {
+                         $query->where('student_id', $studentId);
+                     }])
+                     ->latest()
+                     ->get();
+
+        return view('student.assign-tasks', compact('tasks'));
     }
 
+    // ================= Notifications
+    public function notifications()
+    {
+        return view('student.notification');
+    }
+
+    // ================= Resource Sharing
     public function resourceSharing()
     {
         return view('student.resource-sharing');
     }
 
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
-    }
+    // ================= Logout
+    public function logout(Request $request)
+{
+    Auth::guard('web')->logout(); // যদি তুমি default guard use করো
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('student.login'); // student login page route
+}
+
 }

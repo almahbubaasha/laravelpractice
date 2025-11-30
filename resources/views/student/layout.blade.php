@@ -47,26 +47,36 @@
                 <i class="fas fa-user-tie"></i>
                 <span>Supervisor Info</span>
             </a>
-            <a href="{{ route('student.queries') }}" class="nav-item">
-                <i class="fas fa-question-circle"></i>
-                <span>My Queries</span>
-            </a>
-            <a href="{{ route('task.assign') }}" class="nav-item">
-                <i class="fas fa-tasks"></i>
-                <span>Assigned Tasks</span>
-            </a>
-            <a href="{{ route('notification') }}" class="nav-item">
+
+          <a href="{{ route('student.queries') }}" class="nav-item {{ request()->routeIs('student.queries*') ? 'active' : '' }}">
+        <i class="fas fa-user-tie"></i>
+        <span>My Queries</span>
+    </a>
+
+            <a href="{{ route('student.tasks.index') }}" class="nav-item">
+    <i class="fas fa-tasks"></i>
+    <span>Assigned Tasks</span>
+</a>
+
+            <a href="{{ route('student.notification') }}" class="nav-item">
+
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="{{ route('resource.sharing') }}" class="nav-item">
+            <a href="{{ route('student.resource.sharing') }}" class="nav-item">
                 <i class="fas fa-folder-open"></i>
                 <span>Resource Sharing</span>
             </a>
-            <a href="{{ route('logout') }}" class="nav-item logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
+
+
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+    @csrf
+    <button type="submit" class="nav-item logout" style="width: 100%; border: none; background: none; text-align: left; cursor: pointer; padding: 0;">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    </button>
+</form>
+
         </nav>
     </aside>
 

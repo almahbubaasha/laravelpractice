@@ -122,6 +122,11 @@
       box-shadow: 0 0 8px #3498db;
     }
 
+    form input[readonly] {
+      background: #ecf0f1;
+      cursor: not-allowed;
+    }
+
     /* Button */
     .btn {
       background: #3498db;
@@ -141,6 +146,19 @@
     .btn:hover {
       background: #2c80bd;
       transform: translateY(-2px);
+    }
+
+    .alert {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
     }
 
   </style>
@@ -163,19 +181,20 @@
 
     <!-- Profile Picture Upload -->
     <div class="profile-pic-container">
-      <img id="profilePic" src="{{ isset($profile->img) ? asset($profile->img) : asset('default-avatar.png') }}" alt="Profile Picture" />
+      <img id="profilePic" src="{{ isset($profile->img) ? asset($profile->img) : 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop' }}" alt="Profile Picture" />
       <input type="hidden" name="old_img" value="{{ $profile->img ?? '' }}">
-
-
       <input type="file" id="uploadPic" name="img" accept="image/*" />
     </div>
 
 
-    <!-- User ID (Auto-filled from Auth::id) -->
-<input type="text" name="user_id" 
-       value="{{ Auth::id() }}" 
-       readonly 
-       class="form-control">
+    <!-- Faculty ID (identifier from users table) -->
+    <label for="faculty_id" style="font-weight: 600; color: #2c3e50; display: block; margin-bottom: 5px;">Faculty ID</label>
+    <input type="text" 
+           id="faculty_id"
+           name="faculty_id" 
+           value="{{ Auth::user()->identifier }}" 
+           readonly 
+           style="background: #ecf0f1; cursor: not-allowed;">
 
     <input type="text" id="name" name="full_name" placeholder="Full Name" value="{{ $profile->full_name ?? '' }}" required />
     <input type="email" id="email" name="email" placeholder="Email" value="{{ $profile->email ?? '' }}" required />
@@ -187,20 +206,23 @@
 </form>
 
 @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">✅ {{ session('success') }}</div>
 @endif
 
-
-
   </div>
+
+<script>
+// Preview image before upload
+document.getElementById('uploadPic').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profilePic').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+
 @endsection
-
-
-
-
-
-
-
-
-
-

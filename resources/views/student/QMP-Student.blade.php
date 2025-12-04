@@ -243,23 +243,6 @@ form button:hover {
     font-size: 14px;
     color: #2c3e50;
     line-height: 1.6;
-    margin-bottom: 10px;
-}
-
-.delete-reply-btn {
-    background: transparent;
-    color: #e74c3c;
-    border: 1px solid #e74c3c;
-    padding: 5px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.3s;
-}
-
-.delete-reply-btn:hover {
-    background: #e74c3c;
-    color: white;
 }
 
 .no-reply {
@@ -379,17 +362,6 @@ hr {
                         <div class="reply-text">
                             {{ $query->reply->reply }}
                         </div>
-                        <form action="{{ route('student.queries.replies.destroy', $query->reply->id) }}" method="POST" style="margin: 0;">
-                            @csrf
-                            @method('DELETE')
-                            <button 
-                                type="submit" 
-                                class="delete-reply-btn"
-                                onclick="return confirm('Are you sure you want to delete this reply?')"
-                            >
-                                🗑️ Delete Reply
-                            </button>
-                        </form>
                     </div>
                 @else
                     <div class="no-reply">

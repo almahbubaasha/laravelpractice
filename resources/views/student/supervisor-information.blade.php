@@ -52,11 +52,16 @@
             @if(!empty($supervisor->img))
                 <img src="{{ asset($supervisor->img) }}" alt="Supervisor Picture">
             @else
-                <img src="{{ asset('default-avatar.png') }}" alt="Supervisor Picture">
+                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120&h=120&fit=crop" alt="Supervisor Picture">
             @endif
         </div>
 
         <!-- Supervisor Details -->
+        <div class="info-group">
+            <label class="info-label">Faculty ID</label>
+            <div class="info-field">{{ $supervisor->user->identifier ?? 'N/A' }}</div>
+        </div>
+
         <div class="info-group">
             <label class="info-label">Full Name</label>
             <div class="info-field">{{ $supervisor->full_name }}</div>

@@ -16,7 +16,14 @@ class TeacherProfile extends Model
         'department',
         'short_bio',
         'contact',
-        'img',        // profile image
-        'contact',    // <-- add this if you want
+        'img',
     ];
+
+    /**
+     * Get the user that owns the teacher profile.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

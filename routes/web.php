@@ -14,6 +14,7 @@ use App\Http\Controllers\Student\ResourceController as StudentResourceController
 use App\Http\Controllers\Teacher\TaskController as TeacherTaskController;
 use App\Http\Controllers\Student\TaskController as StudentTaskController;
 use App\Http\Controllers\Student\StudentQueryController;
+use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Teacher\TeacherQueryController;
 
 
@@ -91,10 +92,12 @@ Route::middleware(['auth'])->prefix('student')->name('student.')->group(function
 Route::middleware(['auth'])->prefix('teacher')->name('teacher.')->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', fn() => view('teacher.teacher-dashboard'))->name('dashboard');
+    //Route::get('/dashboard', fn() => view('teacher.teacher-dashboard'))->name('dashboard');
+    Route::get('/dashboard', [TeacherController::class, 'dashboard'])->name('dashboard');
 
+    
     // Profile
-    Route::get('/profile', [TeacherProfileController::class, 'showProfile'])->name('profile');
+    Route::get('/profile', [TeacherProfileController::class, 'showProfile'])->name('profile');//
     Route::post('/profile/save', [TeacherProfileController::class, 'saveProfile'])->name('profile.save');
 
     // Resource Sharing (Teacher)
@@ -104,8 +107,7 @@ Route::middleware(['auth'])->prefix('teacher')->name('teacher.')->group(function
     Route::get('/resources/download/{id}', [TeacherResourceController::class, 'download'])->name('resources.download');
     Route::delete('/resources/{id}', [TeacherResourceController::class, 'delete'])->name('resources.delete');
 
-    // Student Progress Track
-    Route::get('/student-progress-track', fn() => view('teacher.student-progress-track'))->name('student.progress.track');
+    
 
     // Teacher Queries
     Route::get('/queries', [QueryController::class, 'teacherQueries'])->name('queries');

@@ -71,12 +71,22 @@
     text-align: left;
   }
 
+  .latest-badge {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
   ul#notificationList {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 400px;
-    overflow-y: auto;
   }
 
   .notification-item {
@@ -85,44 +95,33 @@
     margin-bottom: 12px;
     border-left: 5px solid #3498db;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     border-radius: 8px;
     font-size: 15px;
     color: #2c3e50;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
   }
 
   .notification-item:hover {
     background-color: #f0f4fb;
+    transform: translateX(5px);
   }
 
   .notification-content {
-    flex: 1;
-    margin-right: 15px;
+    line-height: 1.6;
   }
 
   .notification-time {
     font-size: 12px;
     color: #95a5a6;
-    margin-top: 5px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
-  .delete-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s ease;
-    font-size: 13px;
-  }
-
-  .delete-btn:hover {
-    background: #c0392b;
+  .notification-time::before {
+    content: "🕐";
+    font-size: 14px;
   }
 
   .no-notifications {
@@ -141,12 +140,6 @@
     }
     .notification-item {
       font-size: 14px;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .delete-btn {
-      margin-top: 10px;
-      align-self: flex-end;
     }
   }
 </style>
@@ -160,7 +153,7 @@
   <p id="role-info">Role: <span id="userRole">Student</span></p>
   
   <div class="notifications">
-    <h3>All Notifications</h3>
+    <h3>Latest Notifications <span class="latest-badge">Last 5</span></h3>
     <ul id="notificationList">
       <li class="no-notifications">Loading notifications...</li>
     </ul>
@@ -182,7 +175,10 @@ function loadNotifications() {
             notificationList.innerHTML = '';
             
             if (data.notifications && data.notifications.length > 0) {
-                data.notifications.forEach(notification => {
+                // Show only latest 5 notifications
+                const latestNotifications = data.notifications.slice(0, 5);
+                
+                latestNotifications.forEach(notification => {
                     const li = document.createElement('li');
                     li.className = 'notification-item';
                     li.innerHTML = `
@@ -190,7 +186,6 @@ function loadNotifications() {
                             <div>${notification.message}</div>
                             <div class="notification-time">${formatDate(notification.created_at)}</div>
                         </div>
-                        <button class="delete-btn" onclick="deleteNotification(${notification.id})">Delete</button>
                     `;
                     notificationList.appendChild(li);
                 });
@@ -203,32 +198,6 @@ function loadNotifications() {
             document.getElementById('notificationList').innerHTML = 
                 '<li class="no-notifications">Failed to load notifications.</li>';
         });
-}
-
-function deleteNotification(id) {
-    if (!confirm('Are you sure you want to delete this notification?')) {
-        return;
-    }
-    
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    
-    fetch(`/student/notifications/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            loadNotifications();
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting notification:', error);
-        alert('Failed to delete notification.');
-    });
 }
 
 function formatDate(dateString) {

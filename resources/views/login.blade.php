@@ -1,10 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Interactive Follow-up System</title>
+  
+  <!-- Favicon - Browser Tab Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232c3e50'/><stop offset='100%25' style='stop-color:%233498db'/></linearGradient></defs><rect fill='url(%23g)' width='100' height='100' rx='20'/><circle cx='35' cy='35' r='8' fill='white'/><circle cx='65' cy='35' r='8' fill='white'/><circle cx='35' cy='65' r='8' fill='white'/><circle cx='65' cy='65' r='8' fill='white'/><line x1='35' y1='35' x2='65' y2='35' stroke='white' stroke-width='3'/><line x1='65' y1='35' x2='65' y2='65' stroke='white' stroke-width='3'/><line x1='65' y1='65' x2='35' y2='65' stroke='white' stroke-width='3'/><line x1='35' y1='65' x2='35' y2='35' stroke='white' stroke-width='3'/><circle cx='50' cy='50' r='6' fill='%2327ae60'/></svg>">
+  
   <style>
     /* Reset and Base Styles */
     * {
@@ -27,7 +30,7 @@
       height: 70px;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       font-size: 24px;
       font-weight: 600;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -37,35 +40,43 @@
       right: 0;
       z-index: 1000;
     }
-    /* Navigation Styles */
-    .nav {
-      margin-top: 70px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      padding: 15px 0;
+
+    .header-title {
+      flex: 1;
       text-align: center;
-      border-radius: 0 0 10px 10px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
     }
-    .nav a {
-      margin: 0 20px;
-      text-decoration: none;
-      color: #3498db;
+
+    /* Home Button in Header */
+    .home-button {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 8px;
+      font-size: 15px;
       font-weight: 600;
-      font-size: 16px;
-      transition: color 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
     }
-    .nav a:hover {
+    .home-button:hover {
+      background: white;
       color: #2c3e50;
+      transform: translateY(-2px);
+    }
+    .home-button::before {
+      content: "←";
+      font-size: 18px;
     }
 
     /* Container Styles */
     .container {
       background: white;
       max-width: 400px;
-      margin: 40px auto 60px;
+      margin: 100px auto 60px;
       padding: 30px 25px;
       border-radius: 10px;
       box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -100,7 +111,7 @@
     }
 
     /* Button Styles */
-    button {
+    button[type="submit"] {
       padding: 14px 0;
       background: #3498db;
       color: white;
@@ -109,57 +120,57 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
     }
-    button:hover {
+    button[type="submit"]:hover {
       background: #2c3e50;
       transform: translateY(-2px);
     }
 
     /* Responsive */
     @media (max-width: 480px) {
-      .container {
-        margin: 20px 15px 40px;
+      .header {
+        font-size: 16px;
+        padding: 0 10px;
       }
-      .nav a {
-        margin: 0 10px;
-        font-size: 14px;
+      .home-button {
+        padding: 8px 15px;
+        font-size: 13px;
+      }
+      .container {
+        margin: 90px 15px 40px;
       }
     }
   </style>
 </head>
 <body>
-  <header class="header">Interactive Follow-up and Query System</header>
-
-  {{-- <nav class="nav">
-    <a href="#home">Home</a>
-    <a href="#login">Login</a>
-  </nav> --}}
+  <header class="header">
+    <a href="{{ route('home') }}" class="home-button">
+      Back to Home
+    </a>
+    <div class="header-title">Interactive Follow-up and Query System</div>
+  </header>
 
   <main class="container" id="login">
     <h2>Login</h2>
 
     <form method="POST" action="{{ route('login.post') }}">
-    @csrf
-    <input type="text" name="identifier" placeholder="Student ID/Faculty ID" required />
-    <input type="password" name="password" placeholder="Enter your password" required />
-    <button type="submit">Login</button>
-</form>
+      @csrf
+      <input type="text" name="identifier" placeholder="Student ID/Faculty ID" required />
+      <input type="password" name="password" placeholder="Enter your password" required />
+      <button type="submit">Login</button>
+    </form>
 
-<!-- Error Display -->
-{{-- @if($errors->any())
-    <div style="color:red;">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+    <!-- Error Display -->
+    @if($errors->any())
+      <div style="color:red; margin-top: 15px;">
+        <ul style="list-style: none;">
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
         </ul>
-    </div>
-@endif --}}
-
-
-
-
+      </div>
+    @endif
   </main>
 </body>
 </html>

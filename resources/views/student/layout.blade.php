@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - Interactive Follow-up and Query System</title>
+    
+    <!-- Favicon - Browser Tab Logo -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232c3e50'/><stop offset='100%25' style='stop-color:%233498db'/></linearGradient></defs><rect fill='url(%23g)' width='100' height='100' rx='20'/><circle cx='35' cy='35' r='8' fill='white'/><circle cx='65' cy='35' r='8' fill='white'/><circle cx='35' cy='65' r='8' fill='white'/><circle cx='65' cy='65' r='8' fill='white'/><line x1='35' y1='35' x2='65' y2='35' stroke='white' stroke-width='3'/><line x1='65' y1='35' x2='65' y2='65' stroke='white' stroke-width='3'/><line x1='65' y1='65' x2='35' y2='65' stroke='white' stroke-width='3'/><line x1='35' y1='65' x2='35' y2='35' stroke='white' stroke-width='3'/><circle cx='50' cy='50' r='6' fill='%2327ae60'/></svg>">
+    
     <link rel="stylesheet" href="{{ asset('css/student_dashboard.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
+    @php
+    $studentProfile = \App\Models\StudentProfile::where('user_id', Auth::id())->first();
+    @endphp
+
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -17,8 +25,8 @@
                 <span>Interactive Follow-up and Query System for Research Management</span>
             </div>
             <div class="user-info">
-                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="Profile" class="profile-img">
-                <span>{{ Auth::user()->name ?? 'Student' }}</span>
+                <img src="{{ isset($studentProfile->img) && $studentProfile->img ? asset($studentProfile->img) : 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop' }}" alt="Profile" class="profile-img">
+                <span>{{ $studentProfile->full_name ?? Auth::user()->name ?? 'Student' }}</span>
             </div>
         </div>
     </header>
@@ -27,9 +35,9 @@
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="student-info">
-                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="Student" class="student-img">
+                <img src="{{ isset($studentProfile->img) && $studentProfile->img ? asset($studentProfile->img) : 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop' }}" alt="Student" class="student-img">
                 <div class="student-details">
-                    <h4>{{ Auth::user()->name ?? 'Student' }}</h4>
+                    <h4>{{ $studentProfile->full_name ?? Auth::user()->name ?? 'Student' }}</h4>
                     <p>Research Student</p>
                 </div>
             </div>

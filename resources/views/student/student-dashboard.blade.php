@@ -1,10 +1,12 @@
 @extends('student.layout')
+
+
 @section('content')
 <!-- Main Content -->
     <main class="main-content">
         <!-- Welcome Section -->
        <div class="welcome-section">
-            <h1>Welcome, Student</h1>
+            <h1>Welcome, {{ Auth::user()->name ?? 'Student' }}</h1>
             <p>Defense Research Management System</p>
         </div>
 
@@ -16,7 +18,7 @@
                     <i class="fas fa-question-circle"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>2</h3>
+                    <h3>{{ $myQueriesCount }}</h3>
                     <p>My Queries</p>
                 </div>
             </div>
@@ -25,7 +27,7 @@
                     <i class="fas fa-tasks"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>4</h3>
+                    <h3>{{ $activeTasksCount }}</h3>
                     <p>Active Tasks</p>
                 </div>
             </div>
@@ -34,7 +36,7 @@
                     <i class="fas fa-chart-line"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>75%</h3>
+                    <h3>{{ $progress }}%</h3>
                     <p>Progress</p>
                 </div>
             </div>
@@ -48,33 +50,23 @@
                     <h3>Recent Updates</h3>
                 </div>
                 <div class="activity-list">
+                    @forelse($recentUpdates as $update)
                     <div class="activity-item">
                         <div class="activity-icon">
-                            <i class="fas fa-bullhorn"></i>
+                            <i class="{{ $update['icon'] }}"></i>
                         </div>
                         <div class="activity-content">
-                            <p><strong>Dr. Ahmed Rahman</strong> sent a new notice</p>
-                            <span class="time">1 hour ago</span>
+                            <p>{!! $update['message'] !!}</p>
+                            <span class="time">{{ $update['time'] }}</span>
                         </div>
                     </div>
+                    @empty
                     <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
                         <div class="activity-content">
-                            <p><strong>You</strong> completed Task 3</p>
-                            <span class="time">3 days ago</span>
+                            <p style="text-align: center; color: #999;">No recent updates</p>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-file-download"></i>
-                        </div>
-                        <div class="activity-content">
-                            <p><strong>New Resource</strong> added by supervisor</p>
-                            <span class="time">5 days ago</span>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
 
@@ -84,18 +76,18 @@
                     <h3>Quick Actions</h3>
                 </div>
                 <div class="quick-actions">
-                    <button class="action-btn">
+                    <a href="{{ route('student.queries') }}" class="action-btn">
                         <i class="fas fa-question"></i>
                         <span>Submit Query</span>
-                    </button>
-                    <button class="action-btn">
+                    </a>
+                    <a href="{{ route('student.tasks.index') }}" class="action-btn">
                         <i class="fas fa-upload"></i>
                         <span>Submit Task</span>
-                    </button>
-                    <button class="action-btn">
+                    </a>
+                    <a href="{{ route('student.resource.sharing') }}" class="action-btn">
                         <i class="fas fa-download"></i>
                         <span>Download Resource</span>
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -105,26 +97,24 @@
                     <h3>Upcoming Deadlines</h3>
                 </div>
                 <div class="deadline-list">
+                    @forelse($upcomingDeadlines as $deadline)
                     <div class="deadline-item">
                         <div class="deadline-date">
-                            <span class="day">22</span>
-                            <span class="month">Jul</span>
+                            <span class="day">{{ $deadline['day'] }}</span>
+                            <span class="month">{{ $deadline['month'] }}</span>
                         </div>
                         <div class="deadline-info">
-                            <h4>Submit Chapter 2</h4>
-                            <p>Supervisor: Dr. Ahmed Rahman</p>
+                            <h4>{{ $deadline['title'] }}</h4>
+                            <p>Supervisor: {{ $deadline['supervisor'] }}</p>
                         </div>
                     </div>
+                    @empty
                     <div class="deadline-item">
-                        <div class="deadline-date">
-                            <span class="day">30</span>
-                            <span class="month">Jul</span>
-                        </div>
                         <div class="deadline-info">
-                            <h4>Progress Review Meeting</h4>
-                            <p>Scheduled via Zoom</p>
+                            <p style="text-align: center; color: #999;">No upcoming deadlines</p>
                         </div>
                     </div>
+                    @endforelse
                 </div>
             </div>
         </div>
